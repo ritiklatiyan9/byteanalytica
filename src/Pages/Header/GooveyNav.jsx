@@ -172,21 +172,22 @@ const GooeyNav = ({
             text-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
           }
           .effect.filter {
-            filter: blur(7px) contrast(100) blur(0);
-            mix-blend-mode: lighten;
+            filter: blur(5px) contrast(20) blur(0);
+            mix-blend-mode: screen;
+            opacity: 0.8;
           }
           .effect.filter::before {
             content: "";
             position: absolute;
             inset: -75px;
             z-index: -2;
-            background: black;
+            background: transparent;
           }
           .effect.filter::after {
             content: "";
             position: absolute;
             inset: 0;
-            background: linear-gradient(135deg, rgba(168, 85, 247, 0.6), rgba(236, 72, 153, 0.6));
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.5), rgba(236, 72, 153, 0.5));
             transform: scale(0);
             opacity: 0;
             z-index: -1;
