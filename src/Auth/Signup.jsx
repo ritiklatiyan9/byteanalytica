@@ -1,28 +1,24 @@
 import { useState } from 'react';
-import { useNavigate, Navigate, Link } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import { Building2, Mail, Lock, AlertCircle, Eye, EyeOff, ArrowRight } from 'lucide-react';
+import { useNavigate, Link } from 'react-router-dom';
+import { Building2, Mail, Lock, User, AlertCircle, Eye, EyeOff, ArrowRight } from 'lucide-react';
 
 const customFontStyle = {
   fontFamily: "'Neue Montreal Regular', sans-serif",
   fontStyle: "normal",
 };
 
-export default function Login() {
+export default function Signup() {
   const navigate = useNavigate();
-  const { login, isAuthenticated } = useAuth();
   
   const [formData, setFormData] = useState({
+    name: '',
     email: '',
     password: '',
+    confirmPassword: ''
   });
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-
-  if (isAuthenticated) {
-    return <Navigate to="/" replace />;
-  }
 
   const handleChange = (e) => {
     setFormData({
@@ -37,25 +33,23 @@ export default function Login() {
     setError('');
     setLoading(true);
 
-    if (!formData.email || !formData.password) {
+    if (!formData.name || !formData.email || !formData.password || !formData.confirmPassword) {
       setError('Please fill in all fields');
       setLoading(false);
       return;
     }
 
-    try {
-      const result = await login(formData.email, formData.password);
-
-      if (result.success) {
-        navigate('/', { replace: true });
-      } else {
-        setError(result.error || 'Invalid credentials');
-      }
-    } catch (err) {
-      setError('An unexpected error occurred');
-    } finally {
-      setLoading(false);
+    if (formData.password !== formData.confirmPassword) {
+        setError('Passwords do not match');
+        setLoading(false);
+        return;
     }
+
+    // Simulate signup
+    setTimeout(() => {
+        setLoading(false);
+        navigate('/login');
+    }, 1500);
   };
 
   return (
@@ -73,11 +67,11 @@ export default function Login() {
                   Bytematrix Analytica
                 </span>
             </Link>
-            <h1 className="text-3xl font-bold text-white mb-2">Welcome Back</h1>
-            <p className="text-gray-400">Sign in to access your dashboard</p>
+            <h1 className="text-3xl font-bold text-white mb-2">Create Account</h1>
+            <p className="text-gray-400">Join us to start your journey</p>
           </div>
 
-          {/* Login Form */}
+          {/* Signup Form */}
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Error Alert */}
             {error && (
@@ -86,6 +80,26 @@ export default function Login() {
                 <p className="text-sm text-red-300">{error}</p>
               </div>
             )}
+
+             {/* Name Field */}
+             <div className="space-y-2">
+              <label htmlFor="name" className="block text-sm font-medium text-gray-300">
+                Full Name
+              </label>
+              <div className="relative">
+                <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  placeholder="John Doe"
+                  className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/50 transition-all"
+                  disabled={loading}
+                />
+              </div>
+            </div>
 
             {/* Email Field */}
             <div className="space-y-2">
@@ -121,10 +135,9 @@ export default function Login() {
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  placeholder="Enter your password"
+                  placeholder="Create a password"
                   className="w-full pl-12 pr-12 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/50 transition-all"
                   disabled={loading}
-                  autoComplete="current-password"
                 />
                 <button
                   type="button"
@@ -136,19 +149,24 @@ export default function Login() {
               </div>
             </div>
 
-            <div className="flex items-center justify-between">
-              <label className="flex items-center cursor-pointer group">
-                <input
-                  type="checkbox"
-                  className="w-4 h-4 rounded border-white/10 bg-white/5 text-purple-500 focus:ring-purple-500/50 focus:ring-offset-0 cursor-pointer"
-                />
-                <span className="ml-2 text-sm text-gray-400 group-hover:text-gray-300 transition-colors">
-                  Remember me
-                </span>
+             {/* Confirm Password Field */}
+             <div className="space-y-2">
+              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-300">
+                Confirm Password
               </label>
-              <button type="button" className="text-sm font-medium text-purple-400 hover:text-purple-300 transition-colors">
-                Forgot password?
-              </button>
+              <div className="relative">
+                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  placeholder="Confirm your password"
+                  className="w-full pl-12 pr-12 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/50 transition-all"
+                  disabled={loading}
+                />
+              </div>
             </div>
 
             <button
@@ -157,19 +175,19 @@ export default function Login() {
               className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white py-3.5 rounded-xl font-medium transition-all shadow-[0_0_20px_rgba(168,85,247,0.4)] hover:shadow-[0_0_30px_rgba(168,85,247,0.6)] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
                 {loading ? (
-                    'Signing in...'
+                    'Creating Account...'
                 ) : (
                     <>
-                    Sign In <ArrowRight className="w-5 h-5" />
+                    Get Started <ArrowRight className="w-5 h-5" />
                     </>
                 )}
             </button>
           </form>
 
           <div className="mt-8 text-center text-gray-400 text-sm">
-            Don't have an account?{' '}
-            <Link to="/signup" className="text-white hover:text-purple-300 font-medium transition-colors">
-              Get Started
+            Already have an account?{' '}
+            <Link to="/login" className="text-white hover:text-purple-300 font-medium transition-colors">
+              Sign In
             </Link>
           </div>
         </div>

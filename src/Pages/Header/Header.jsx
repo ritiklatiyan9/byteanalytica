@@ -1,8 +1,10 @@
+// Header.jsx
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import GooeyNav from "./GooveyNav";
+
 const customFontStyle = {
   fontFamily: "'Neue Montreal Regular', sans-serif",
   fontStyle: "normal",
@@ -17,6 +19,7 @@ export default function Header() {
     { label: "Home", href: "/" },
     { label: "Features", href: "/features" },
     { label: "Pricing", href: "/pricing" },
+    { label: "Portfolio", href: "/projects" },
     { label: "About", href: "/about" },
     { label: "Contact", href: "/contact" },
   ];
@@ -52,9 +55,11 @@ export default function Header() {
           <Link to="/login" className="text-gray-300 hover:text-white transition-all duration-300">
             Sign In
           </Link>
-          <Button className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-full px-6 shadow-[0_0_20px_rgba(168,85,247,0.4)] hover:shadow-[0_0_30px_rgba(168,85,247,0.6)] transition-all duration-300">
-            Get Started
-          </Button>
+          <Link to="/signup">
+            <Button className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-full px-6 shadow-[0_0_20px_rgba(168,85,247,0.4)] hover:shadow-[0_0_30px_rgba(168,85,247,0.6)] transition-all duration-300">
+                Get Started
+            </Button>
+          </Link>
         </div>
 
         {/* Mobile Menu Button */}
@@ -107,6 +112,13 @@ export default function Header() {
               Pricing
             </Link>
             <Link 
+              to="/projects" 
+              onClick={() => setIsMenuOpen(false)}
+              className="text-gray-300 hover:text-white transition-all duration-300 py-2 px-4 rounded-xl hover:bg-white/5"
+            >
+              Portfolio
+            </Link>
+            <Link 
               to="/about" 
               onClick={() => setIsMenuOpen(false)}
               className="text-gray-300 hover:text-white transition-all duration-300 py-2 px-4 rounded-xl hover:bg-white/5"
@@ -130,12 +142,17 @@ export default function Header() {
             >
               Sign In
             </Link>
-            <Button 
+            <Link 
+              to="/signup"
               onClick={() => setIsMenuOpen(false)}
-              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-full px-6 py-3 shadow-[0_0_20px_rgba(168,85,247,0.4)] hover:shadow-[0_0_30px_rgba(168,85,247,0.6)] transition-all duration-300 w-full"
+              className="w-full"
             >
-              Get Started
-            </Button>
+                <Button 
+                className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-full px-6 py-3 shadow-[0_0_20px_rgba(168,85,247,0.4)] hover:shadow-[0_0_30px_rgba(168,85,247,0.6)] transition-all duration-300 w-full"
+                >
+                Get Started
+                </Button>
+            </Link>
           </nav>
         </div>
       </div>
