@@ -91,6 +91,9 @@ export default function Home() {
               <Button size="lg" variant="outline" className="border-white/30 text-black hover:bg-white/10 px-8 py-6 text-lg rounded-full backdrop-blur-sm">
                 Watch Demo
               </Button>
+              <Button size="lg" variant="outline" className="border-white/30 text-black hover:bg-white/10 px-8 py-6 text-lg rounded-full backdrop-blur-sm" onClick={() => window.location.href='/projects'}>
+                View Our Work
+              </Button>
             </div>
 
             <div className="mt-12 flex items-center justify-center gap-8 text-sm text-gray-400">
